@@ -1,0 +1,3 @@
+/home/kacper_k/SikrakenUserAssistTool/cmake-build-debug/CMakeFiles/SikrakenUserAssistTool.dir
+/home/kacper_k/SikrakenUserAssistTool/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/kacper_k/SikrakenUserAssistTool/cmake-build-debug/CMakeFiles/rebuild_cache.dir
