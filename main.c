@@ -12,6 +12,39 @@
 #define TRIES_MAX 50
 #define LOG_FILE "sikraken_output/Problem03_label00/test_run_Problem03_label00.log"
 
+//display the log info in cmd output for users ease
+void display_log_info() {
+    FILE *file = fopen(LOG_FILE, "r"); //ensure log file exists (for trouble shooting)
+    if (!file) {
+        perror("Error opening file");
+        return;
+    }
+
+    char line[1024];
+    regex_t regex;
+    int reti;
+
+    // Compile the regex
+    reti = regcomp(&regex, "Sikraken Session Results:|ECLiPSe CPU time:.*|Generated:.*", REG_EXTENDED); //Regex target
+    if (reti) {
+        fprintf(stderr, "Could not compile regex\n");
+        fclose(file);
+        return;
+    }
+
+    // Read the file line by line
+    while (fgets(line, sizeof(line), file)) {
+        // Execute the regex
+        reti = regexec(&regex, line, 0, NULL, 0);
+        if (!reti) {
+            printf("%s", line);
+        }
+    }
+
+    // Free the compiled regex
+    regfree(&regex);
+    fclose(file);
+}
 
 
 int main() {
@@ -45,6 +78,9 @@ int main() {
         perror("Error executing command");
         return EXIT_FAILURE;
     }
+
+    // Display the specific log information
+    display_log_info();
 
     return EXIT_SUCCESS;
 }
