@@ -1,4 +1,4 @@
-# Year4ProjectSikrakenTestTool
+# Year4ProjectSikrakenTestTool #
 A Helper Tool for Sikraken to make it more user friendly
 
 2/12/2024:
@@ -13,6 +13,6 @@ Currently problem03 is hardcoded, so no way switching C code samples yet
 24/01/2025:
 Basic GA will find best $restarts$tries integer pair for Problem03_label00 (hardcoded) and will run Testcov to measure coverage for that C code sample. The result isnt fully accurate as it will simply choose highest possible coverage (without taking cpu time in account), and the algorithm will execute sequentially (not parallelized), meaning long processing time.
 
-## NOTE ##<br>
+ NOTE <br>
 <span style="color:red">My local File path is hardcoded in GeneticAlgo2.py file. To run the algorith on your machine you may need to change the filepaths to reflect your machine.</span>
-<br>#######
+<br>
