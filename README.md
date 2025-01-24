@@ -14,6 +14,6 @@ Currently problem03 is hardcoded, so no way switching C code samples yet
 Basic GA will find best $restarts$tries integer pair for Problem03_label00 (hardcoded) and will run Testcov to measure coverage for that C code sample. The result isnt fully accurate as it will simply choose highest possible coverage (without taking cpu time in account), and the algorithm will execute sequentially (not parallelized), meaning long processing time.
 
 ##NOTE## <br>
-```dif -
-My local File path is hardcoded in GeneticAlgo2.py file. To run the algorith on your machine you may need to change the filepaths to reflect your machine.```
+$${\color{red}Welcome \space \color{lightblue}To \space \color{orange}Stackoverflow}$$
+My local File path is hardcoded in GeneticAlgo2.py file. To run the algorith on your machine you may need to change the filepaths to reflect your machine.
 <br>#######
