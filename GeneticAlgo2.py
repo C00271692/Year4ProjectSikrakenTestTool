@@ -20,71 +20,67 @@ class SikrakenOptimizer:
 
     @staticmethod
     def list_sample_files():
-        # Get all .c files from SampleCode directory
+        # Get all .c files only from directory
         sample_dir = "/home/kacper_k/SikrakenUserAssistTool/Sikraken/regression_tests"
         c_files = glob.glob(f"{sample_dir}/*.c")
         return [os.path.basename(f) for f in c_files]
     
 
-    # Create a single individual with two genes: [$restarts,$tries]
-    # Each gene is an integer 1 - 50    
+    # Create a single individual with two genes: [$restarts,$tries]    
     def create_individual(self) -> List[int]:
-        return [random.randint(1, 50), random.randint(1, 50)]
+        return [random.randint(1, 500), random.randint(1, 500)]
         
     def initialize_population(self) -> List[List[int]]:
         return [self.create_individual() for _ in range(self.pop_size)]
 
-    def validate_paths(self):
-        if not os.path.exists(self.base_dir):
-            raise ValueError(f"Sikraken directory not found: {self.base_dir}")
-        if not os.path.exists(f"{self.base_dir}/regression_tests/{self.target_file}"):
-            raise ValueError(f"Target file not found: {self.target_file}")
 
+    def halve_parameters(self, individual: List[int]) -> List[int]:
+        """Halve both parameters if timeout occurs"""
+        return [max(1, x // 2) for x in individual]
+        
     # Evaluate fitness of individual by running Sikraken and TestCov
     # Returns coverage percentage as fitness
-    def evaluate(self, individual: List[int]) -> float:
+    def evaluate(self, individual: List[int], gen_num: int = 0, ind_num: int = 0) -> float:
         if not self.target_file:
             return 0.0
             
-        restarts, tries = individual
-        retries = 0
+        current_individual = individual.copy()
+        attempts = 0
+        max_attempts = 5  # Prevent infinite halving
         
-        # Run Sikraken and TestCov
-        # Perfiorming error handling and retries
-        while retries < self.max_retries:
+        while attempts < max_attempts:
+            restarts, tries = current_individual
+            start_time = time.time()
+            
             try:
-                # Run Sikraken with timeout
                 sikraken_cmd = f"cd {self.base_dir} && ./bin/sikraken.sh release regression[{restarts},{tries}] -m32 ./regression_tests/{self.target_file}"
-                result = subprocess.run(sikraken_cmd, shell=True, capture_output=True, text=True, timeout=300)
+                result = subprocess.run(sikraken_cmd, shell=True, capture_output=True, text=True, timeout=100)
                 
-                if result.returncode != 0:
-                    print(f"Attempt {retries + 1}: Sikraken failed with error: {result.stderr}")
-                    retries += 1
-                    continue
+                if result.returncode == 0:
+                    testcov_cmd = f"cd {self.base_dir} && ./bin/run_testcov.sh ./regression_tests/{self.target_file} -32"
+                    cov_result = subprocess.run(testcov_cmd, shell=True, capture_output=True, text=True, timeout=60)
                     
-                # Run TestCov
-                testcov_cmd = f"cd {self.base_dir} && ./bin/run_testcov.sh ./regression_tests/{self.target_file} -32"
-                cov_result = subprocess.run(testcov_cmd, shell=True, capture_output=True, text=True, timeout=60)
+                    elapsed_time = time.time() - start_time
+                    
+                    if cov_result.returncode == 0:
+                        coverage_match = re.search(r"Coverage:\s+(\d+\.?\d*)%", cov_result.stdout)
+                        if coverage_match:
+                            coverage = float(coverage_match.group(1))
+                            print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] achieved {coverage:.2f}% coverage in {elapsed_time:.2f}s")
+                            return coverage
                 
-                if cov_result.returncode == 0:
-                    coverage_match = re.search(r"Coverage:\s+(\d+\.?\d*)%", cov_result.stdout)
-                    if coverage_match:
-                        coverage = float(coverage_match.group(1))
-                        print(f"Parameters [{restarts},{tries}] achieved {coverage}% coverage")
-                        return coverage
-                        
-                retries += 1
-                
+                print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] failed")
+                return 0.0
+
+            # Halved parameters when timeout occurs are NOT counted in tournament selection    
             except subprocess.TimeoutExpired:
-                print(f"Attempt {retries + 1}: Timeout")
-                retries += 1
-            except Exception as e:
-                print(f"Attempt {retries + 1}: Unexpected error: {str(e)}")
-                retries += 1
+                print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] timed out, halving values...")
+                current_individual = self.halve_parameters(current_individual)
+                attempts += 1
                 
-        print(f"All {self.max_retries} attempts failed for parameters [{restarts},{tries}]")
+        print(f"Gen {gen_num}, Ind {ind_num}: Failed after {attempts} halving attempts")
         return 0.0
-    
+
     # Tournament selection: randomly select tournament_size individuals
     # Return the one with best fitness (highest coverage)    
     def tournament_select(self, population: List[List[int]], fitnesses: List[float]) -> List[int]:
@@ -122,8 +118,9 @@ class SikrakenOptimizer:
         for gen in range(self.generations):
             print(f"\nGeneration {gen + 1}/{self.generations}")
             
-            # Evaluate population
-            fitnesses = [self.evaluate(ind) for ind in population]
+            # Evaluate population with generation tracking
+            fitnesses = [self.evaluate(ind, gen + 1, i + 1) 
+                        for i, ind in enumerate(population)]
             
             # Track best solution
             for ind, fit in zip(population, fitnesses):
@@ -147,9 +144,6 @@ class SikrakenOptimizer:
 def main():
     # List available C files
     available_files = SikrakenOptimizer.list_sample_files()
-    if not available_files:
-        print("No C files found in the directory")
-        return
         
     print("\nAvailable C files:")
     for i, file in enumerate(available_files, 1):
@@ -168,7 +162,7 @@ def main():
             print("Please enter a number.")
             
     # Run optimizer with selected file
-    random.seed(42)
+    random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
     optimizer = SikrakenOptimizer(pop_size=10, generations=10, target_file=target_file, max_retries=3)
     best_solution, best_fitness = optimizer.run()
     print(f"\nBest solution for {target_file}: {best_solution}")
