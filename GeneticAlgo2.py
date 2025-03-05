@@ -16,17 +16,11 @@ class SikrakenOptimizer:
         self.target_file = target_file
         self.max_retries = max_retries
         self.debug = debug
-
-        self.base_dir = "/home/kacper_k/SikrakenUserAssistTool/Sikraken"
-
-        self.base_dir = "/home/kacper/Year4ProjectSikrakenTestTool/sikraken"
-
+        self.base_dir = "/home/kacper/SikrakenUserAssistTool/sikraken"
 
     @staticmethod
     def list_sample_files():
         # Get all .c files only from directory
-        sample_dir = "/home/kacper_k/SikrakenUserAssistTool/Sikraken/regression_tests"
-
         sample_dir = "/home/kacper/Year4ProjectSikrakenTestTool/sikraken/regression_tests"
         c_files = glob.glob(f"{sample_dir}/*.c")
         return [os.path.basename(f) for f in c_files]
