@@ -1,0 +1,21 @@
+1.0.9
+*****Version 1.0.3*****
+November 2024
+  Regression test reproducibility
+
+1.0.3
+*****Version 1.0.3*****
+November 2024
+  Supporting arrays, gotos, assign operators and continue statement
+
+*****Version 1.0.2*****
+November 2024
+  Incremental subset enlargement
+
+*****Version 1.0.0*****
+October 2024
+  Initial release for Test-Comp 2025
+
+*****Version 0.0.0*****
+14 June 2024
+  Sikraken is born

@@ -1,0 +1,104 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile Parser",
+            "type": "shell",
+            "command": "${workspaceFolder}/bin/compile_parser.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "runOptions": {
+                "runOn": "default"
+            }
+        },
+        {
+            "label": "Call Parser",
+            "type": "shell",
+            "command": "${workspaceFolder}/bin/call_parser.sh",
+            "args": [
+                "${fileDirname}",
+                "${fileBasenameNoExtension}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Preprocesses the current C file and then runs sikraken_parser on it."
+        },
+        {
+            "label": "Run TestCov",
+            "type": "shell",
+            "command": "${workspaceFolder}/bin/run_testcov.sh",
+            "args": [
+                "${relativeFile}",
+                "-32"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Zip test input vectors and call TestCov"
+        },
+        {
+            "label": "Get se_main predicate",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "se_main(['${workspaceFolder}', '${fileDirname}', '${fileBasenameNoExtension}', main, debug, testcomp, '-m32', regression(1, 10)])"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Parallel Regression Tests",
+            "type": "shell",
+            "command": "/usr/bin/time",
+            "args": [
+                "-v",
+                "${workspaceFolder}/bin/run_regression_par.sh",
+                "8",
+                "regression_tests"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "runOptions": {
+                "runOn": "default"
+            }
+        }
+    ]
+}

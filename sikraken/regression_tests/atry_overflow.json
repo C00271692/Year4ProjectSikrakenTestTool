@@ -1,0 +1,12 @@
+{
+    "configurations": [
+      {
+        "id": "run1",
+        "description": "integer overflow needed",
+        "algo": "regression(1, 10)",
+        "expected_run_time": 1,
+        "expected_test_inputs_number": 4,
+        "expected_coverage": 80.0
+      }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "id": "run1",
+      "description": "puting struct through their paces",
+      "algo": "regression(2, 10)",
+      "expected_run_time": 1,
+      "expected_test_inputs_number": 2,
+      "expected_coverage": 100.0
+    }
+  ]
+}

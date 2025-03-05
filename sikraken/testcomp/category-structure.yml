@@ -1,0 +1,295 @@
+competition: Test-Comp
+year: 2024
+
+verifiers:
+  - cetfuzz
+  - coveritest
+  - esbmc-kind
+  - fdse
+  - fizzer
+  - fusebmc
+  - fusebmc-ia
+  - hybridtiger
+  - klee
+  - kleef
+  - legion
+  - legion-symcc
+  - owic
+  - prtest
+  - rizzer
+  - sikraken
+  - symbiotic
+  - tracerx
+  - tracerx-wp
+  - utestgen
+  - wasp-c
+
+validators:
+  - testcov-validate-test-suites
+
+# Verifiers participating hors concours are executed and listed in the final results,
+# but can not win any medals
+hors_concours:
+  - esbmc-kind
+  - hybridtiger
+  - klee
+  - legion
+  - legion-symcc
+  - wasp-c
+
+not_participating:
+  - cmaesfuzz
+  - esbmc-falsi
+  - fairfuzz
+  - libkluzzer
+  - verifuzz
+
+properties:
+  - coverage-branches
+  - coverage-error-call
+
+categories:
+  Cover-Error:
+    properties: coverage-error-call
+    categories:
+      - coverage-error-call.ReachSafety-Arrays
+      - coverage-error-call.ReachSafety-BitVectors
+      - coverage-error-call.ReachSafety-ControlFlow
+      - coverage-error-call.ReachSafety-ECA
+      - coverage-error-call.ReachSafety-Floats
+      - coverage-error-call.ReachSafety-Fuzzle
+      - coverage-error-call.ReachSafety-Heap
+      - coverage-error-call.ReachSafety-Loops
+      - coverage-error-call.ReachSafety-ProductLines
+      - coverage-error-call.ReachSafety-Recursive
+      - coverage-error-call.ReachSafety-Sequentialized
+      - coverage-error-call.ReachSafety-XCSP
+      - coverage-error-call.ReachSafety-Hardware
+      - coverage-error-call.SoftwareSystems-BusyBox-MemSafety
+      - coverage-error-call.SoftwareSystems-OpenBSD-MemSafety
+      - coverage-error-call.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+    verifiers:
+      - cetfuzz
+      - coveritest
+      - esbmc-kind
+      - fdse
+      - fizzer
+      - fusebmc
+      - fusebmc-ia
+      - hybridtiger
+      - klee
+      - kleef
+      - legion-symcc
+      - owic
+      - prtest
+      - rizzer
+      - symbiotic
+      - tracerx
+      - tracerx-wp
+      - utestgen
+      - wasp-c
+    validators:
+      - testcov
+  Cover-Branches:
+    properties: coverage-branches
+    categories:
+      - coverage-branches.ReachSafety-Arrays
+      - coverage-branches.ReachSafety-BitVectors
+      - coverage-branches.ReachSafety-ControlFlow
+      - coverage-branches.ReachSafety-ECA
+      - coverage-branches.ReachSafety-Floats
+      - coverage-branches.ReachSafety-Fuzzle
+      - coverage-branches.ReachSafety-Hardness
+      - coverage-branches.ReachSafety-Hardware
+      - coverage-branches.ReachSafety-Heap
+      - coverage-branches.ReachSafety-Loops
+      - coverage-branches.ReachSafety-ProductLines
+      - coverage-branches.ReachSafety-Recursive
+      - coverage-branches.ReachSafety-Sequentialized
+      - coverage-branches.ReachSafety-XCSP
+      - coverage-branches.ReachSafety-Combinations
+      - coverage-branches.SoftwareSystems-AWS-C-Common-ReachSafety
+      - coverage-branches.SoftwareSystems-BusyBox-MemSafety
+      - coverage-branches.SoftwareSystems-OpenBSD-MemSafety
+      - coverage-branches.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+      - coverage-branches.SoftwareSystems-SQLite-MemSafety
+      - coverage-branches.Termination-BitVectors
+      - coverage-branches.Termination-MainControlFlow
+      - coverage-branches.Termination-MainHeap
+    verifiers:
+      - cetfuzz
+      - coveritest
+      - fdse
+      - fizzer
+      - fusebmc
+      - fusebmc-ia
+      - hybridtiger
+      - klee
+      - kleef
+      - legion
+      - legion-symcc
+      - owic
+      - prtest
+      - sikraken
+      - symbiotic
+      - tracerx
+      - tracerx-wp
+      - utestgen
+      - wasp-c
+    validators:
+      - testcov
+
+  Overall:
+    properties:
+      - coverage-branches
+      - coverage-error-call
+    categories:
+      - Cover-Error
+      - Cover-Branches
+    verifiers:
+      - cetfuzz
+      - coveritest
+      - fdse
+      - fizzer
+      - fusebmc
+      - fusebmc-ia
+      - hybridtiger
+      - klee
+      - kleef
+      - legion-symcc
+      - owic
+      - prtest
+      - symbiotic
+      - tracerx
+      - tracerx-wp
+      - utestgen
+      - wasp-c
+    validators:
+      - testcov
+
+categories_process_order:
+  - coverage-error-call.ReachSafety-Arrays
+  - coverage-error-call.ReachSafety-BitVectors
+  - coverage-error-call.ReachSafety-ControlFlow
+  - coverage-error-call.ReachSafety-ECA
+  - coverage-error-call.ReachSafety-Floats
+  - coverage-error-call.ReachSafety-Fuzzle
+  - coverage-error-call.ReachSafety-Heap
+  - coverage-error-call.ReachSafety-Loops
+  - coverage-error-call.ReachSafety-ProductLines
+  - coverage-error-call.ReachSafety-Recursive
+  - coverage-error-call.ReachSafety-Sequentialized
+  - coverage-error-call.ReachSafety-XCSP
+  - coverage-error-call.ReachSafety-Hardware
+  - coverage-error-call.SoftwareSystems-BusyBox-MemSafety
+  - coverage-error-call.SoftwareSystems-OpenBSD-MemSafety
+  - coverage-error-call.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+  - Cover-Error
+  - coverage-branches.ReachSafety-Arrays
+  - coverage-branches.ReachSafety-BitVectors
+  - coverage-branches.ReachSafety-ControlFlow
+  - coverage-branches.ReachSafety-ECA
+  - coverage-branches.ReachSafety-Floats
+  - coverage-branches.ReachSafety-Fuzzle
+  - coverage-branches.ReachSafety-Hardness
+  - coverage-branches.ReachSafety-Hardware
+  - coverage-branches.ReachSafety-Heap
+  - coverage-branches.ReachSafety-Loops
+  - coverage-branches.ReachSafety-ProductLines
+  - coverage-branches.ReachSafety-Recursive
+  - coverage-branches.ReachSafety-Sequentialized
+  - coverage-branches.ReachSafety-XCSP
+  - coverage-branches.ReachSafety-Combinations
+  - coverage-branches.SoftwareSystems-AWS-C-Common-ReachSafety
+  - coverage-branches.SoftwareSystems-BusyBox-MemSafety
+  - coverage-branches.SoftwareSystems-OpenBSD-MemSafety
+  - coverage-branches.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+  - coverage-branches.SoftwareSystems-SQLite-MemSafety
+  - coverage-branches.Termination-BitVectors
+  - coverage-branches.Termination-MainControlFlow
+  - coverage-branches.Termination-MainHeap
+  - Cover-Branches
+  - Overall
+
+categories_table_order:
+  - Cover-Error
+  - coverage-error-call.ReachSafety-Arrays
+  - coverage-error-call.ReachSafety-BitVectors
+  - coverage-error-call.ReachSafety-ControlFlow
+  - coverage-error-call.ReachSafety-ECA
+  - coverage-error-call.ReachSafety-Floats
+  - coverage-error-call.ReachSafety-Fuzzle
+  - coverage-error-call.ReachSafety-Heap
+  - coverage-error-call.ReachSafety-Loops
+  - coverage-error-call.ReachSafety-ProductLines
+  - coverage-error-call.ReachSafety-Recursive
+  - coverage-error-call.ReachSafety-Sequentialized
+  - coverage-error-call.ReachSafety-XCSP
+  - coverage-error-call.ReachSafety-Hardware
+  - coverage-error-call.SoftwareSystems-BusyBox-MemSafety
+  - coverage-error-call.SoftwareSystems-OpenBSD-MemSafety
+  - coverage-error-call.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+  - Cover-Branches
+  - coverage-branches.ReachSafety-Arrays
+  - coverage-branches.ReachSafety-BitVectors
+  - coverage-branches.ReachSafety-ControlFlow
+  - coverage-branches.ReachSafety-ECA
+  - coverage-branches.ReachSafety-Floats
+  - coverage-branches.ReachSafety-Fuzzle
+  - coverage-branches.ReachSafety-Hardness
+  - coverage-branches.ReachSafety-Hardware
+  - coverage-branches.ReachSafety-Heap
+  - coverage-branches.ReachSafety-Loops
+  - coverage-branches.ReachSafety-ProductLines
+  - coverage-branches.ReachSafety-Recursive
+  - coverage-branches.ReachSafety-Sequentialized
+  - coverage-branches.ReachSafety-XCSP
+  - coverage-branches.ReachSafety-Combinations
+  - coverage-branches.SoftwareSystems-AWS-C-Common-ReachSafety
+  - coverage-branches.SoftwareSystems-BusyBox-MemSafety
+  - coverage-branches.SoftwareSystems-OpenBSD-MemSafety
+  - coverage-branches.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+  - coverage-branches.SoftwareSystems-SQLite-MemSafety
+  - coverage-branches.Termination-BitVectors
+  - coverage-branches.Termination-MainControlFlow
+  - coverage-branches.Termination-MainHeap
+  - Overall
+
+opt_out:
+
+opt_in:
+  legion:
+    - coverage-error-call.ReachSafety-Arrays
+    - coverage-error-call.ReachSafety-BitVectors
+    - coverage-error-call.ReachSafety-ControlFlow
+    - coverage-error-call.ReachSafety-ECA
+    - coverage-error-call.ReachSafety-Floats
+    - coverage-error-call.ReachSafety-Fuzzle
+    - coverage-error-call.ReachSafety-Heap
+    - coverage-error-call.ReachSafety-Loops
+    - coverage-error-call.ReachSafety-ProductLines
+    - coverage-error-call.ReachSafety-Recursive
+    - coverage-error-call.ReachSafety-Sequentialized
+    - coverage-error-call.ReachSafety-XCSP
+    - coverage-error-call.ReachSafety-Hardware
+    - coverage-error-call.SoftwareSystems-BusyBox-MemSafety
+    - coverage-error-call.SoftwareSystems-OpenBSD-MemSafety
+    - coverage-error-call.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+  tracerx:
+    - coverage-error-call.ReachSafety-Arrays
+    - coverage-error-call.ReachSafety-BitVectors
+    - coverage-error-call.ReachSafety-ControlFlow
+    - coverage-error-call.ReachSafety-ECA
+    - coverage-error-call.ReachSafety-Floats
+    - coverage-error-call.ReachSafety-Fuzzle
+    - coverage-error-call.ReachSafety-Heap
+    - coverage-error-call.ReachSafety-Loops
+    - coverage-error-call.ReachSafety-ProductLines
+    - coverage-error-call.ReachSafety-Recursive
+    - coverage-error-call.ReachSafety-Sequentialized
+    - coverage-error-call.ReachSafety-XCSP
+    - coverage-error-call.ReachSafety-Hardware
+    - coverage-error-call.SoftwareSystems-BusyBox-MemSafety
+    - coverage-error-call.SoftwareSystems-OpenBSD-MemSafety
+    - coverage-error-call.SoftwareSystems-DeviceDriversLinux64-ReachSafety
+

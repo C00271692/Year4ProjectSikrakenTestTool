@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "*.pl": "prolog",
+        ".l": "c",
+        "stdio.h": "c",
+        "random": "c",
+        "cstring": "c",
+        "type_traits": "c",
+        "string.h": "c"
+    },
+    "git.detectSubmodulesLimit": 10,
+    "sarif-viewer.connectToGithubCodeScanning": "off"
+}

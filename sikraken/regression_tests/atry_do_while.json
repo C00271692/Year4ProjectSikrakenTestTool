@@ -1,0 +1,12 @@
+{
+    "configurations": [
+      {
+        "id": "run1",
+        "description": "do while",
+        "algo": "regression(1, 1)",
+        "expected_run_time": 1,
+        "expected_test_inputs_number": 1,
+        "expected_coverage": 100.0
+      }
+    ]
+  }

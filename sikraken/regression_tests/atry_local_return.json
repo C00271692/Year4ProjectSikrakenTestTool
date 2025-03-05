@@ -1,0 +1,12 @@
+{
+    "configurations": [
+      {
+        "id": "run1",
+        "description": "checking return from functions",
+        "algo": "regression(1, 10)",
+        "expected_run_time": 1,
+        "expected_test_inputs_number": 3,
+        "expected_coverage": 100.0
+      }
+    ]
+}

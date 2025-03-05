@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "id": "run1",
+      "description": "attempt at testing complex bollean search",
+      "algo": "regression(1, 10)",
+      "expected_run_time": 1,
+      "expected_test_inputs_number": 4,
+      "expected_coverage": 100.0
+    }
+  ]
+}

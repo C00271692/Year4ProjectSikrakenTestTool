@@ -1,0 +1,12 @@
+{
+    "configurations": [
+      {
+        "id": "run1",
+        "description": "Hard, slow testcov execution",
+        "algo": "budget(90)",
+        "expected_run_time": 300,
+        "expected_test_inputs_number": 6,
+        "expected_coverage": 0.29
+      }
+    ]
+  }

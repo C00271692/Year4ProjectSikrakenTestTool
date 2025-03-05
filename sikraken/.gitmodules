@@ -1,0 +1,6 @@
+[submodule "SikrakenDevSpace"]
+	path = SikrakenDevSpace
+	url = https://github.com/echancrure/SikrakenDevSpace
+[submodule "PTC-Solver"]
+	path = PTC-Solver
+	url = https://github.com/echancrure/PTC-Solver

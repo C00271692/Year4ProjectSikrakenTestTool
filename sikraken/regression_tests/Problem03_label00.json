@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "id": "run2",
+      "description": "Should reach the max 46.96% [also regression(1, 10) 7 tests for 16.55%]",
+      "algo": "budget(60)",
+      "expected_run_time": 150,
+      "expected_test_inputs_number": 81,
+      "expected_coverage": 46.96
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+    "configurations": [
+      {
+        "id": "run1",
+        "description": "Various casting expressions",
+        "algo": "regression(1, 10)",
+        "expected_run_time": 1,
+        "expected_test_inputs_number": 2,
+        "expected_coverage": 60.0
+      }
+    ]
+  }
