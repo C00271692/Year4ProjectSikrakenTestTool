@@ -13,6 +13,9 @@ in the repository is also a python file to generate the scatter plot from a .txt
 Instruction of Use:
 
 1.) Download Testcov from https://gitlab.com/sosy-lab/software/test-suite-validator.git into the TestCov directory
+
 2.) Download PTC-Solver from https://github.com/echancrure/PTC-Solver/tree/C_ver (C_ver branch) into the PTC-Solver direcory
+
 3.) Install GCC-Multilib (sudo dnf intall)
+
 4.) Install clang-tools
