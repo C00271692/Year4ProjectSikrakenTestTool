@@ -1,21 +1,17 @@
 # Year4ProjectSikrakenTestTool #
-A Helper Tool for Sikraken to make it more user friendly
+A Helper Tool for Sikraken, which incorporates the Genetic Algorithm to automatically find the best integer
+value pair in Sikrakens regression mode. The algorithm runs sikraken/testcov (to measure coverage as our fitness)
+in multiple iterations across 10 generations to find the absolute most perfect integer pair with the hisghest possible
+coverage and lowest cpu time.
 
-2/12/2024:
-Added Cpu time and number of tests generated from test_run_Problem03_label00.log file, using regex to isolate the relevant values and displaying
-them in the termianl output
+GeneticAlgo.py is the main algorithm file. To compare the results of the genetic algorithm I have included a simple
+integer generator which create random integers for $restarts,$tries and graph the results on a scatter graph. Included 
+in the repository is also a python file to generate the scatter plot from a .txt file for easier visualization of results.
 
-2/12/2024:
-First commit, very basic C script that will insert 2 random integers (for Regression mode) ./bin/sikraken.sh release regression[$restarts,$tries]
-The script will run Sikraken and output a success/fail message.
-Currently problem03 is hardcoded, so no way switching C code samples yet 
+---------------------------------------------------------------------------------------------------------------------------
 
-24/01/2025:
-Basic GA will find best $restarts$tries integer pair for Problem03_label00 (hardcoded) and will run Testcov to measure coverage for that C code sample. The result isnt fully accurate as it will simply choose highest possible coverage (without taking cpu time in account), and the algorithm will execute sequentially (not parallelized), meaning long processing time.
-
-29/01/2025:
-Added C code sample selection (not limited to only Problem003 anymore) from regression_tests directory, and error handling for the file selector.
-
-##NOTE## <br>
-My local File path is hardcoded in GeneticAlgo2.py file. To run the algorith on your machine you may need to change the filepaths to reflect your machine.
-<br>#######
+Instruction of Use:
+1.) Download Testcov from https://gitlab.com/sosy-lab/software/test-suite-validator.git into the TestCov directory
+2.) Download PTC-Solver from https://github.com/echancrure/PTC-Solver/tree/C_ver (C_ver branch) into the PTC-Solver direcory
+3.) Install GCC-Multilib (sudo dnf intall)
+4.) Install clang-tools
