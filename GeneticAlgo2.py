@@ -7,21 +7,21 @@ from typing import List, Tuple
 import glob
 
 class SikrakenOptimizer:
-    def __init__(self, pop_size=10, generations=10, tournament_size=3, target_file=None, max_retries=3, debug=False):
+    def __init__(self, pop_size=10, generations=10, tournament_size=3, target_file=None, max_retries=3, debug=False, base_directory=""):
         self.pop_size = pop_size # Population size
         self.generations = generations # Number of evolution cycles
         self.tournament_size = tournament_size # Number of individuals competing in selection
-        self.crossover_rate = 0.7 # chance of crossover
-        self.mutation_rate = 0.2 # chance of mutation
+        self.crossover_rate = 0.85 # chance of crossover
+        self.mutation_rate = 0.15 # chance of mutation
         self.target_file = target_file
         self.max_retries = max_retries
         self.debug = debug
-        self.base_dir = "/home/kacper/SikrakenUserAssistTool/sikraken"
+        self.base_dir = base_directory
 
     @staticmethod
-    def list_sample_files():
+    def list_sample_files(base_dir: str = "") -> List[str]:
         # Get all .c files only from directory
-        sample_dir = "/home/kacper/Year4ProjectSikrakenTestTool/sikraken/regression_tests"
+        sample_dir = base_dir + "/regression_tests"
         c_files = glob.glob(f"{sample_dir}/*.c")
         return [os.path.basename(f) for f in c_files]
     
@@ -54,7 +54,7 @@ class SikrakenOptimizer:
             
             try:
                 sikraken_cmd = f"cd {self.base_dir} && ./bin/sikraken.sh release regression[{restarts},{tries}] -m32 ./regression_tests/{self.target_file}"
-                result = subprocess.run(sikraken_cmd, shell=True, capture_output=True, text=True, timeout=100)
+                result = subprocess.run(sikraken_cmd, shell=True, capture_output=True, text=True, timeout=90)
                 
                 if result.returncode == 0:
                     testcov_cmd = f"cd {self.base_dir} && ./bin/run_testcov.sh ./regression_tests/{self.target_file} -32"
@@ -106,7 +106,7 @@ class SikrakenOptimizer:
         # mutation_rate chance per gene of being randomized
         for i in range(len(individual)):
             if random.random() < self.mutation_rate:
-                individual[i] = random.randint(1, 50)
+                individual[i] = random.randint(1, 500)
         return individual
         
     # Main genetic algo loop
@@ -142,8 +142,10 @@ class SikrakenOptimizer:
         return best_solution, best_fitness
 
 def main():
+    base_dir = input("Enter the base directory of Sikraken: ")
+
     # List available C files
-    available_files = SikrakenOptimizer.list_sample_files()
+    available_files = SikrakenOptimizer.list_sample_files(base_dir)
         
     print("\nAvailable C files:")
     for i, file in enumerate(available_files, 1):
@@ -162,8 +164,8 @@ def main():
             print("Please enter a number.")
             
     # Run optimizer with selected file
-    random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
-    optimizer = SikrakenOptimizer(pop_size=10, generations=10, target_file=target_file, max_retries=3)
+    #random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
+    optimizer = SikrakenOptimizer(pop_size=10, generations=10, target_file=target_file, max_retries=3, base_directory=base_dir)
     best_solution, best_fitness = optimizer.run()
     print(f"\nBest solution for {target_file}: {best_solution}")
     print(f"Coverage: {best_fitness}%")
