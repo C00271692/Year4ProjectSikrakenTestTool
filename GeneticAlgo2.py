@@ -3,6 +3,8 @@ import os
 import time
 import re
 import subprocess
+import concurrent.futures
+import threading
 from typing import List, Tuple
 import glob
 
@@ -17,6 +19,8 @@ class SikrakenOptimizer:
         self.max_retries = max_retries
         self.debug = debug
         self.base_dir = base_directory
+        # Add lock for TestCov runs
+        self.testcov_lock = threading.Lock()
 
     @staticmethod
     def list_sample_files(base_dir: str = "") -> List[str]:
@@ -53,12 +57,15 @@ class SikrakenOptimizer:
             start_time = time.time()
             
             try:
+                # Run Sikraken (this can run in parallel)
                 sikraken_cmd = f"cd {self.base_dir} && ./bin/sikraken.sh release regression[{restarts},{tries}] -m32 ./regression_tests/{self.target_file}"
                 result = subprocess.run(sikraken_cmd, shell=True, capture_output=True, text=True, timeout=90)
                 
                 if result.returncode == 0:
-                    testcov_cmd = f"cd {self.base_dir} && ./bin/run_testcov.sh ./regression_tests/{self.target_file} -32"
-                    cov_result = subprocess.run(testcov_cmd, shell=True, capture_output=True, text=True, timeout=60)
+                    # Run TestCov with a lock to prevent concurrent runs
+                    with self.testcov_lock:
+                        testcov_cmd = f"cd {self.base_dir} && ./bin/run_testcov.sh ./regression_tests/{self.target_file} -32"
+                        cov_result = subprocess.run(testcov_cmd, shell=True, capture_output=True, text=True, timeout=60)
                     
                     elapsed_time = time.time() - start_time
                     
@@ -109,18 +116,40 @@ class SikrakenOptimizer:
                 individual[i] = random.randint(1, 500)
         return individual
         
-    # Main genetic algo loop
+    # Main genetic algo loop with parallel evaluation
     def run(self):
         population = self.initialize_population()
         best_solution = None
         best_fitness = 0.0
         
+        # Determine optimal number of workers based on CPU cores
+        max_workers = min(self.pop_size, (os.cpu_count() or 4))
+        print(f"Using {max_workers} worker threads for parallel evaluation")
+        
         for gen in range(self.generations):
             print(f"\nGeneration {gen + 1}/{self.generations}")
             
-            # Evaluate population with generation tracking
-            fitnesses = [self.evaluate(ind, gen + 1, i + 1) 
-                        for i, ind in enumerate(population)]
+            # Prepare evaluation tasks
+            eval_tasks = [(ind, gen + 1, i + 1) for i, ind in enumerate(population)]
+            
+            # Evaluate population in parallel
+            fitnesses = [0.0] * len(population)  # Initialize fitness list
+            
+            with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+                # Submit all evaluation tasks
+                future_to_idx = {}
+                for i, (ind, gen_num, ind_num) in enumerate(eval_tasks):
+                    future = executor.submit(self.evaluate, ind, gen_num, ind_num)
+                    future_to_idx[future] = i
+                
+                # Collect results as they complete
+                for future in concurrent.futures.as_completed(future_to_idx):
+                    idx = future_to_idx[future]
+                    try:
+                        fitnesses[idx] = future.result()
+                    except Exception as exc:
+                        print(f"Evaluation {idx} generated an exception: {exc}")
+                        fitnesses[idx] = 0.0
             
             # Track best solution
             for ind, fit in zip(population, fitnesses):
@@ -164,7 +193,7 @@ def main():
             print("Please enter a number.")
             
     # Run optimizer with selected file
-    #random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
+    random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
     optimizer = SikrakenOptimizer(pop_size=10, generations=10, target_file=target_file, max_retries=3, base_directory=base_dir)
     best_solution, best_fitness = optimizer.run()
     print(f"\nBest solution for {target_file}: {best_solution}")
