@@ -9,7 +9,8 @@ from typing import List, Tuple
 import glob
 
 class SikrakenOptimizer:
-    def __init__(self, pop_size=10, generations=10, tournament_size=3, target_file=None, max_retries=3, debug=False, base_directory=""):
+    def __init__(self, pop_size=10, generations=10, tournament_size=3, target_file=None, 
+                 max_retries=3, debug=False, base_directory="", restart_range=None, tries_range=None):
         self.pop_size = pop_size # Population size
         self.generations = generations # Number of evolution cycles
         self.tournament_size = tournament_size # Number of individuals competing in selection
@@ -21,6 +22,9 @@ class SikrakenOptimizer:
         self.base_dir = base_directory
         # Add lock for TestCov runs
         self.testcov_lock = threading.Lock()
+        # Parameter ranges
+        self.restart_range = restart_range or (1, 500)
+        self.tries_range = tries_range or (1, 500)
 
     @staticmethod
     def list_sample_files(base_dir: str = "") -> List[str]:
@@ -32,7 +36,7 @@ class SikrakenOptimizer:
 
     # Create a single individual with two genes: [$restarts,$tries]    
     def create_individual(self) -> List[int]:
-        return [random.randint(1, 500), random.randint(1, 500)]
+        return [random.randint(*self.restart_range), random.randint(*self.tries_range)]
         
     def initialize_population(self) -> List[List[int]]:
         return [self.create_individual() for _ in range(self.pop_size)]
@@ -109,12 +113,15 @@ class SikrakenOptimizer:
         return child1, child2
         
     def mutate(self, individual: List[int]) -> List[int]:
+        # Create a copy to avoid modifying the original
+        result = individual.copy()
         # Random mutation of genes
         # mutation_rate chance per gene of being randomized
-        for i in range(len(individual)):
-            if random.random() < self.mutation_rate:
-                individual[i] = random.randint(1, 500)
-        return individual
+        if random.random() < self.mutation_rate:
+            result[0] = random.randint(*self.restart_range)
+        if random.random() < self.mutation_rate:
+            result[1] = random.randint(*self.tries_range)
+        return result
         
     # Main genetic algo loop with parallel evaluation
     def run(self):
@@ -180,7 +187,7 @@ def main():
     for i, file in enumerate(available_files, 1):
         print(f"{i}. {file}")
         
-    # Get user selection with validation
+    # Get user selection (with some basic validation)
     while True:
         try:
             selection = int(input("\nSelect file number to analyze: ")) - 1
@@ -191,10 +198,65 @@ def main():
             print("Invalid selection. Please try again.")
         except ValueError:
             print("Please enter a number.")
-            
-    # Run optimizer with selected file
-    random.seed(42) # !!!REMOVE SEED WHEN DONE TESTING!!!
-    optimizer = SikrakenOptimizer(pop_size=10, generations=10, target_file=target_file, max_retries=3, base_directory=base_dir)
+
+    # Get parameter ranges from user (with basic validation)
+    print("\nSet parameter ranges:")
+    
+    # Get restart_min
+    while True:
+        try:
+            restart_min = int(input("Minimum $restart value: "))
+            if restart_min < 1:
+                print("Invalid input. Value must be at least 1. Try again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    
+    # Get restart_max
+    while True:
+        try:
+            restart_max = int(input("Maximum $restart value: "))
+            if restart_max < restart_min:
+                print(f"Invalid input. Value must be at least {restart_min}. Try again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    
+    # Get tries_min
+    while True:
+        try:
+            tries_min = int(input("Minimum $tries value: "))
+            if tries_min < 1:
+                print("Invalid input. Value must be at least 1. Try again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    
+    # Get tries_max
+    while True:
+        try:
+            tries_max = int(input("Maximum $tries value: "))
+            if tries_max < tries_min:
+                print(f"Invalid input. Value must be at least {tries_min}. Try again.")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+    
+    # Run optimizer with selected file and parameter ranges
+    random.seed(42)  # !!!REMOVE SEED WHEN DONE TESTING!!!
+    optimizer = SikrakenOptimizer(
+        pop_size=10, 
+        generations=10, 
+        target_file=target_file, 
+        max_retries=3, 
+        base_directory=base_dir,
+        restart_range=(restart_min, restart_max),
+        tries_range=(tries_min, tries_max)
+    )
     best_solution, best_fitness = optimizer.run()
     print(f"\nBest solution for {target_file}: {best_solution}")
     print(f"Coverage: {best_fitness}%")
