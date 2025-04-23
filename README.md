@@ -4,9 +4,12 @@ value pair in Sikrakens regression mode. The algorithm runs sikraken/testcov (to
 in multiple iterations across 10 generations to find the absolute most perfect integer pair with the highest possible
 coverage and lowest cpu time.
 
-GeneticAlgo.py is the main algorithm file. To compare the results of the genetic algorithm I have included a simple
+GeneticAlgo2.py is the main algorithm file. To compare the results of the genetic algorithm I have included a simple
 integer generator (RandomIntPairs.py) which create random integers for $restarts,$tries and graph the results on a scatter graph. Included 
-in the repository is also a python file to generate the scatter plot from a .txt file for easier visualization of results (InteraciveGraphPlot.py).
+in the repository is also a python file to generate the scatter plot from a .txt file for easier visualization of results (InteraciveGraphPlot.py),
+which is now also integrated into the main algorithm file for ease of use.
+
+Please note: this project is designed to run on a Linux environment only!
 
 ---------------------------------------------------------------------------------------------------------------------------
 
