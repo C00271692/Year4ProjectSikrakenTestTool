@@ -5,6 +5,8 @@ import re
 import subprocess
 import concurrent.futures
 import threading
+import datetime
+import sys
 from typing import List, Tuple
 import glob
 
@@ -25,6 +27,8 @@ class SikrakenOptimizer:
         # Parameter ranges
         self.restart_range = restart_range or (1, 500)
         self.tries_range = tries_range or (1, 500)
+        # For result collection
+        self.result_lines = []
 
     @staticmethod
     def list_sample_files(base_dir: str = "") -> List[str]:
@@ -77,19 +81,26 @@ class SikrakenOptimizer:
                         coverage_match = re.search(r"Coverage:\s+(\d+\.?\d*)%", cov_result.stdout)
                         if coverage_match:
                             coverage = float(coverage_match.group(1))
-                            print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] achieved {coverage:.2f}% coverage in {elapsed_time:.2f}s")
+                            result_line = f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] achieved {coverage:.2f}% coverage in {elapsed_time:.2f}s"
+                            print(result_line)
+                            # Store the result line for later saving to file
+                            self.result_lines.append(result_line)
                             return coverage
                 
                 print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] failed")
+                self.result_lines.append(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] failed")
                 return 0.0
 
-            # Halved parameters when timeout occurs are NOT counted in tournament selection    
             except subprocess.TimeoutExpired:
-                print(f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] timed out, halving values...")
+                timeout_msg = f"Gen {gen_num}, Ind {ind_num}: [{restarts},{tries}] timed out, halving values..."
+                print(timeout_msg)
+                self.result_lines.append(timeout_msg)
                 current_individual = self.halve_parameters(current_individual)
                 attempts += 1
                 
-        print(f"Gen {gen_num}, Ind {ind_num}: Failed after {attempts} halving attempts")
+        fail_msg = f"Gen {gen_num}, Ind {ind_num}: Failed after {attempts} halving attempts"
+        print(fail_msg)
+        self.result_lines.append(fail_msg)
         return 0.0
 
     # Tournament selection: randomly select tournament_size individuals
@@ -128,6 +139,9 @@ class SikrakenOptimizer:
         population = self.initialize_population()
         best_solution = None
         best_fitness = 0.0
+        
+        # Clear previous results
+        self.result_lines = []
         
         # Determine optimal number of workers based on CPU cores
         max_workers = min(self.pop_size, (os.cpu_count() or 4))
@@ -173,9 +187,37 @@ class SikrakenOptimizer:
                 new_population.extend([self.mutate(child1), self.mutate(child2)])
                 
             population = new_population[:self.pop_size]
-            print(f"Best solution so far: {best_solution} with coverage: {best_fitness}%")
+            best_msg = f"Best solution so far: {best_solution} with coverage: {best_fitness}%"
+            print(best_msg)
+            self.result_lines.append(best_msg)
             
+        # Add final best solution to results
+        self.result_lines.append(f"\nFinal Best Solution: {best_solution}")
+        self.result_lines.append(f"Final Coverage: {best_fitness}%")
+        
         return best_solution, best_fitness
+
+    def save_results(self):
+        # Create GAResults directory if it doesn't exist
+        if not os.path.exists("GAResults"):
+            os.makedirs("GAResults")
+            
+        # Create a timestamp for the filename
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"GAResults/{os.path.splitext(self.target_file)[0]}_{timestamp}.txt"
+        
+        with open(filename, "w") as f:
+            # Write header information
+            f.write(f"# Genetic Algorithm Results for {self.target_file}\n")
+            f.write(f"# Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"# Parameter ranges: restarts ({self.restart_range[0]}-{self.restart_range[1]}), tries ({self.tries_range[0]}-{self.tries_range[1]})\n")
+            f.write(f"# Population size: {self.pop_size}, Generations: {self.generations}\n\n")
+            
+            # Write all result lines
+            for line in self.result_lines:
+                f.write(f"{line}\n")
+                
+        return filename
 
 def main():
     base_dir = input("Enter the base directory of Sikraken: ")
@@ -202,7 +244,7 @@ def main():
     # Get parameter ranges from user (with basic validation)
     print("\nSet parameter ranges:")
     
-    # Get restart_min
+    # Get restart_min with proper validation
     while True:
         try:
             restart_min = int(input("Minimum $restart value: "))
@@ -213,7 +255,7 @@ def main():
         except ValueError:
             print("Invalid input. Please enter a number.")
     
-    # Get restart_max
+    # Get restart_max with proper validation
     while True:
         try:
             restart_max = int(input("Maximum $restart value: "))
@@ -224,7 +266,7 @@ def main():
         except ValueError:
             print("Invalid input. Please enter a number.")
     
-    # Get tries_min
+    # Get tries_min with proper validation
     while True:
         try:
             tries_min = int(input("Minimum $tries value: "))
@@ -235,7 +277,7 @@ def main():
         except ValueError:
             print("Invalid input. Please enter a number.")
     
-    # Get tries_max
+    # Get tries_max with proper validation
     while True:
         try:
             tries_max = int(input("Maximum $tries value: "))
@@ -257,9 +299,23 @@ def main():
         restart_range=(restart_min, restart_max),
         tries_range=(tries_min, tries_max)
     )
+    
     best_solution, best_fitness = optimizer.run()
     print(f"\nBest solution for {target_file}: {best_solution}")
     print(f"Coverage: {best_fitness}%")
+    
+    # Save results to file
+    results_file = optimizer.save_results()
+    print(f"Results saved to: {results_file}")
+    
+    # Ask if user wants to see the graph
+    show_graph = input("\nWould you like to see the results graph? (y/n): ").lower().strip()
+    if show_graph == 'y' or show_graph == 'yes':
+        try:
+            subprocess.run([sys.executable, "InteractiveGraphPlot.py", results_file])
+        except Exception as e:
+            print(f"Error displaying graph: {e}")
+            print("You can view the graph later by running: python InteractiveGraphPlot.py {results_file}")
 
 if __name__ == "__main__":
     main()
