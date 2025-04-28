@@ -34,13 +34,13 @@ InteractiveGraphPlot.py
 ...
         \sikraken
         	\bin
-        		call_parser.sh
-        		compile_parser.sh
-        		run_regression.sh
-        		run_testcov.sh
-        sikraken_parser.exe
-        sikraken.sh
-        version.txt
+        	call_parser.sh
+        	compile_parser.sh
+        	run_regression.sh
+        	run_testcov.sh
+                sikraken_parser.exe
+                sikraken.sh
+                version.txt
         		...
           \TestCov
             \build
@@ -50,14 +50,14 @@ InteractiveGraphPlot.py
         	\Documentation
         		Development Log.gdoc
         		README.md
-        Sikraken Development Guide.gdoc
-        ...	
+                        Sikraken Development Guide.gdoc
+                        ...	
         \eclipse
         		...
         	\Parser
         		C_grammar.l
         		C_grammar.y
-        ...
+                        ...
         \PTC-Solver
         	\doc
         	\source
