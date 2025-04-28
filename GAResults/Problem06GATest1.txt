@@ -1,0 +1,171 @@
+Generation 1/10
+Gen 1, Ind 4: [229,143] failed
+Gen 1, Ind 5: [755,105] failed
+Gen 1, Ind 9: [33,31] achieved 9.19% coverage in 56.60s
+Gen 1, Ind 3: [282,251] achieved 11.06% coverage in 110.50s
+Gen 1, Ind 1: [655,115] achieved 11.06% coverage in 155.16s
+Gen 1, Ind 10: [96,224] achieved 11.06% coverage in 199.46s
+Gen 1, Ind 8: [605,433] achieved 11.06% coverage in 243.83s
+Gen 1, Ind 7: [559,90] achieved 11.06% coverage in 288.37s
+Gen 1, Ind 6: [693,759] achieved 11.06% coverage in 332.98s
+Gen 1, Ind 2: [26,760] achieved 11.06% coverage in 377.47s
+Best solution so far: [655, 115] with coverage: 11.06%
+
+Generation 2/10
+Gen 2, Ind 7: [26,90] failed
+Gen 2, Ind 9: [26,251] achieved 7.32% coverage in 36.00s
+Gen 2, Ind 5: [26,760] achieved 9.97% coverage in 74.89s
+Gen 2, Ind 2: [559,115] achieved 10.98% coverage in 118.63s
+Gen 2, Ind 1: [655,413] achieved 10.98% coverage in 162.58s
+Gen 2, Ind 8: [559,760] achieved 10.98% coverage in 206.54s
+Gen 2, Ind 4: [693,251] achieved 10.98% coverage in 250.25s
+Gen 2, Ind 6: [117,760] achieved 10.98% coverage in 293.99s
+Gen 2, Ind 10: [282,760] achieved 10.98% coverage in 337.74s
+Gen 2, Ind 3: [282,759] achieved 10.98% coverage in 381.46s
+Best solution so far: [655, 115] with coverage: 11.06%
+
+Generation 3/10
+Gen 3, Ind 1: [655,413] failed
+Gen 3, Ind 3: [559,759] achieved 10.98% coverage in 109.35s
+Gen 3, Ind 10: [559,759] achieved 10.98% coverage in 153.04s
+Gen 3, Ind 5: [559,413] achieved 10.98% coverage in 196.84s
+Gen 3, Ind 2: [559,115] achieved 10.98% coverage in 240.63s
+Gen 3, Ind 9: [282,115] achieved 10.98% coverage in 284.58s
+Gen 3, Ind 6: [655,760] achieved 10.98% coverage in 328.42s
+Gen 3, Ind 7: [223,115] achieved 10.98% coverage in 372.34s
+Gen 3, Ind 8: [370,413] achieved 10.98% coverage in 416.47s
+Gen 3, Ind 4: [282,760] achieved 10.98% coverage in 460.34s
+Best solution so far: [655, 115] with coverage: 11.06%
+
+Generation 4/10
+Gen 4, Ind 4: [370,759] timed out, halving values...
+Gen 4, Ind 8: [282,760] timed out, halving values...
+Gen 4, Ind 3: [559,413] achieved 10.98% coverage in 229.09s
+Gen 4, Ind 7: [282,122] achieved 10.05% coverage in 266.47s
+Gen 4, Ind 1: [282,115] achieved 11.06% coverage in 311.47s
+Gen 4, Ind 2: [370,450] achieved 11.06% coverage in 356.22s
+Gen 4, Ind 10: [282,115] achieved 11.06% coverage in 400.90s
+Gen 4, Ind 6: [559,760] achieved 11.06% coverage in 445.64s
+Gen 4, Ind 9: [282,760] achieved 11.06% coverage in 490.33s
+Gen 4, Ind 5: [116,11] achieved 11.06% coverage in 535.10s
+Gen 4, Ind 4: [185,379] achieved 11.06% coverage in 454.25s
+Gen 4, Ind 8: [141,380] achieved 11.06% coverage in 439.03s
+Best solution so far: [655, 115] with coverage: 11.06%
+
+Generation 5/10
+Gen 5, Ind 5: [370,759] failed
+Gen 5, Ind 7: [282,760] failed
+Gen 5, Ind 6: [282,115] failed
+Gen 5, Ind 9: [35,760] achieved 9.19% coverage in 54.23s
+Gen 5, Ind 3: [370,450] timed out, halving values...
+Gen 5, Ind 2: [559,115] timed out, halving values...
+Gen 5, Ind 8: [370,300] achieved 11.06% coverage in 229.43s
+Gen 5, Ind 10: [282,456] achieved 12.23% coverage in 281.17s
+Gen 5, Ind 1: [282,94] timed out, halving values...
+Gen 5, Ind 4: [282,115] timed out, halving values...
+Gen 5, Ind 3: [185,225] timed out, halving values...
+Gen 5, Ind 2: [279,57] timed out, halving values...
+Gen 5, Ind 1: [141,47] timed out, halving values...
+Gen 5, Ind 4: [141,57] timed out, halving values...
+Gen 5, Ind 3: [92,112] timed out, halving values...
+Gen 5, Ind 2: [139,28] timed out, halving values...
+Gen 5, Ind 1: [70,23] achieved 13.79% coverage in 238.65s
+Gen 5, Ind 4: [70,28] timed out, halving values...
+Gen 5, Ind 3: [46,56] timed out, halving values...
+Gen 5, Ind 2: [69,14] timed out, halving values...
+Gen 5, Ind 4: [35,14] timed out, halving values...
+Gen 5, Ind 3: [23,28] achieved 13.55% coverage in 171.99s
+Gen 5, Ind 2: [34,7] achieved 10.59% coverage in 146.12s
+Gen 5, Ind 4: [17,7] achieved 10.59% coverage in 120.20s
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Generation 6/10
+Gen 6, Ind 10: [559,94] failed
+Gen 6, Ind 7: [370,450] achieved 10.98% coverage in 109.39s
+Gen 6, Ind 9: [282,115] achieved 10.98% coverage in 153.36s
+Gen 6, Ind 4: [179,450] achieved 10.98% coverage in 197.32s
+Gen 6, Ind 6: [370,450] achieved 10.98% coverage in 241.40s
+Gen 6, Ind 2: [282,94] achieved 10.98% coverage in 285.42s
+Gen 6, Ind 3: [110,300] achieved 10.98% coverage in 329.36s
+Gen 6, Ind 1: [282,456] achieved 10.98% coverage in 373.36s
+Gen 6, Ind 5: [282,450] achieved 10.98% coverage in 417.42s
+Gen 6, Ind 8: [370,450] achieved 10.98% coverage in 461.51s
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Generation 7/10
+Gen 7, Ind 5: [110,456] failed
+Gen 7, Ind 3: [282,450] failed
+Gen 7, Ind 10: [282,450] achieved 10.98% coverage in 109.49s
+Gen 7, Ind 7: [282,450] achieved 11.06% coverage in 154.20s
+Gen 7, Ind 9: [179,450] achieved 11.06% coverage in 198.89s
+Gen 7, Ind 2: [187,115] achieved 11.06% coverage in 243.48s
+Gen 7, Ind 6: [282,300] achieved 11.06% coverage in 288.16s
+Gen 7, Ind 1: [282,66] achieved 11.06% coverage in 332.63s
+Gen 7, Ind 8: [370,94] achieved 11.06% coverage in 376.82s
+Gen 7, Ind 4: [179,456] achieved 11.06% coverage in 421.04s
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Generation 8/10
+Gen 8, Ind 6: [282,115] failed
+Gen 8, Ind 2: [461,450] failed
+Gen 8, Ind 9: [488,115] achieved 11.06% coverage in 109.76s
+Gen 8, Ind 4: [282,66] achieved 11.06% coverage in 154.10s
+Gen 8, Ind 10: [187,456] achieved 11.06% coverage in 198.67s
+Gen 8, Ind 1: [282,66] achieved 11.06% coverage in 243.16s
+Gen 8, Ind 3: [282,66] achieved 11.06% coverage in 287.87s
+Gen 8, Ind 5: [187,450] achieved 11.06% coverage in 332.43s
+Gen 8, Ind 7: [282,450] achieved 11.06% coverage in 377.02s
+Gen 8, Ind 8: [179,450] achieved 11.06% coverage in 421.67s
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Generation 9/10
+Gen 9, Ind 2: [282,66] failed
+Gen 9, Ind 4: [282,66] failed
+Gen 9, Ind 6: [488,115] timed out, halving values...
+Gen 9, Ind 5: [488,115] timed out, halving values...
+Gen 9, Ind 7: [179,115] timed out, halving values...
+Gen 9, Ind 1: [282,66] timed out, halving values...
+Gen 9, Ind 8: [488,450] timed out, halving values...
+Gen 9, Ind 3: [282,450] timed out, halving values...
+Gen 9, Ind 9: [488,450] achieved 11.14% coverage in 470.12s
+Gen 9, Ind 10: [187,119] achieved 10.12% coverage in 508.09s
+Gen 9, Ind 6: [244,57] achieved 12.93% coverage in 437.48s
+Gen 9, Ind 5: [244,57] achieved 12.93% coverage in 432.23s
+Gen 9, Ind 7: [89,57] achieved 12.93% coverage in 426.87s
+Gen 9, Ind 1: [141,33] achieved 12.93% coverage in 421.88s
+Gen 9, Ind 8: [244,225] achieved 12.93% coverage in 416.70s
+Gen 9, Ind 3: [141,225] achieved 12.93% coverage in 411.42s
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Generation 10/10
+Gen 10, Ind 9: [488,115] failed
+Gen 10, Ind 6: [488,450] timed out, halving values...
+Gen 10, Ind 1: [179,115] timed out, halving values...
+Gen 10, Ind 4: [488,66] achieved 11.14% coverage in 229.72s
+Gen 10, Ind 8: [179,450] achieved 12.54% coverage in 283.21s
+Gen 10, Ind 5: [488,115] timed out, halving values...
+Gen 10, Ind 10: [488,450] timed out, halving values...
+Gen 10, Ind 2: [179,115] timed out, halving values...
+Gen 10, Ind 3: [282,450] achieved 11.14% coverage in 507.49s
+Gen 10, Ind 7: [488,115] achieved 12.54% coverage in 561.13s
+Gen 10, Ind 6: [244,225] timed out, halving values...
+Gen 10, Ind 1: [89,57] timed out, halving values...
+Gen 10, Ind 5: [244,57] timed out, halving values...
+Gen 10, Ind 10: [244,225] timed out, halving values...
+Gen 10, Ind 2: [89,57] timed out, halving values...
+Gen 10, Ind 6: [122,112] timed out, halving values...
+Gen 10, Ind 1: [44,28] timed out, halving values...
+Gen 10, Ind 5: [122,28] achieved 13.79% coverage in 298.04s
+Gen 10, Ind 10: [122,112] timed out, halving values...
+Gen 10, Ind 2: [44,28] timed out, halving values...
+Gen 10, Ind 6: [61,56] achieved 13.79% coverage in 296.17s
+Gen 10, Ind 1: [22,14] timed out, halving values...
+Gen 10, Ind 10: [61,56] timed out, halving values...
+Gen 10, Ind 2: [22,14] achieved 8.64% coverage in 200.82s
+Gen 10, Ind 1: [11,7] achieved 9.58% coverage in 118.39s
+Gen 10, Ind 10: [30,28] timed out, halving values...
+Gen 10, Ind 10: Failed after 5 halving attempts
+Best solution so far: [282, 94] with coverage: 13.79%
+
+Best solution for Problem06_label00.c: [282, 94]
+Coverage: 13.79%
